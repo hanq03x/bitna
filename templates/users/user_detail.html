@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+
+{% block page_title %}
+    {{user_obj.first_name}}의 프로필
+{% endblock page_title %}
+
+{% block content %}
+
+    <div class="min-h-75vh">
+        <div class="container w-50vh mx-auto my-10 flex flex-col items-center border p-6 border-gray-400">
+    
+            {% include "mixins/user_avatar.html" with user=user_obj %}
+    
+            <div class="flex items-center my-2">
+                <span class="text-3xl mt-1">{{user_obj.first_name}}</span>
+            </div>
+    
+            <span class="text-lg">{{user_obj.bio}}</span>
+    
+            {% if user == user_obj %}
+                <a href="{% url 'users:update' %}" class="btn-link mt-3">프로필 수정</a>
+            {% endif %}
+
+            <div class="mt-5">
+                <a href="{% url 'users:withdrawl' %}">회원탈퇴</a>
+            </div>
+        </div>
+
+        <h3 class="mt-12 text-2xl text-center font-medium">관심목록</h3>
+
+        <div class="container mx-auto pb-10 ">
+            <div class="flex flex-wrap -mx-10 mb-10">
+                {% for product in user_obj.lists.products.all  %}
+                    {% include 'mixins/product_card.html' with product=product %}
+                {% endfor %}
+            </div>
+        </div>
+
+    </div>
+{% endblock content %}

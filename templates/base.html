@@ -1,0 +1,31 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.11.2/css/all.css">
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}" />
+    <title>빛나주얼리 :: {% block page_name %}{% endblock page_name %}</title>
+  </head>
+  <body class = "text-gray-800 mt-24 font-light">
+    {% include "partials/header.html" %}
+
+    <div class="min-h-75vh">
+      {% block content %}{% endblock %}
+    </div>
+
+    {% include "partials/footer.html" %}
+  </body>
+  <script charset="UTF-8" class="daum_roughmap_loader_script" src="https://ssl.daumcdn.net/dmaps/map_js_init/roughmapLoader.js"></script>
+  <script charset="UTF-8">
+    new daum.roughmap.Lander({
+      "timestamp" : "1639234998052",
+      "key" : "28egn",
+      "mapWidth" : "640",
+      "mapHeight" : "360"
+    }).render();
+  </script>
+</html>
+  

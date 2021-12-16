@@ -1,1 +1,8 @@
 *.lock
+.DS_Store
+uploads/
+node_modules/
+.env
+.vscode/
+.prettierignore
+db.sqlite3

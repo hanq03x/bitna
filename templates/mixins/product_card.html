@@ -1,0 +1,14 @@
+<div class="w-1/4 mt-10 px-2">
+    <a href="{% url 'products:detail' product.pk %}">
+        <div class="w-64 h-64 bg-cover bg-center rounded-lg" style="background-image: url({{product.first_photo}});"></div>
+        <div class="w-64 flex justify-between items-center mb-2 truncate">
+            <div class="flex items-center">
+                <span class="text-black w-11/12 block truncate mr-2">{{product.name}}</span>
+                <span class="text-sm text-gray-600 block">{{product.material}}</span>
+            </div>
+            <span class="text-sm flex items-center">
+                <i class="fas fa-star text-blue-500 text-xs mr-1"></i> {{product.total_rating}}
+            </span>
+        </div>
+    </a>
+</div>

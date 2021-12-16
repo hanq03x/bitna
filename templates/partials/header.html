@@ -1,0 +1,29 @@
+{% load static %}
+<header class="container max-w-full inset-0 flex items-center justify-between px-6 h-20 border-b border-gray-400 fixed bg-white">
+  <div class="flex items-center w-96">
+    <a href="{% url 'core:home' %}" class="mr-6">
+      <img src="{% static 'img/text1.png' %}" alt="">
+    </a>
+  </div>
+  <nav class="flex text-sm font-medium h-full">
+    <div class="flex">
+      <li class="nav_link"><a href="{% url 'products:rings' %}">반지</a></li>
+      <li class="nav_link"><a href="{% url 'products:earrings' %}">귀걸이</a></li>
+      <li class="nav_link"><a href="{% url 'products:necklaces' %}">목걸이</a></li>
+      <li class="nav_link"><a href="{% url 'products:bracelets' %}">팔찌</a></li>
+      <li class="nav_link"><a href="{% url 'products:search' %}"><i class="fas fa-search"></i> 검색</a></li>
+      <li class="nav_link"><a href="{% url 'notices:list' %}">공지사항</a></li>
+    </div>
+    <div class="flex">
+        {% if user.is_authenticated %}
+            <li class="nav_link"><a href="{% url 'conversations:go' user.pk %}">1:1 상담</a></li>
+            <li class="nav_link"><a href="{{user.get_absolute_url}}">프로필</a></li>
+            <li class="nav_link"><a href="{% url 'users:logout' %}">로그아웃</a></li>
+        {% else %}
+            <li class="nav_link"><a href="{% url 'users:login'%}">로그인</a></li>
+            <li class="nav_link"><a href="{% url 'users:login'%}">회원가입</a></li>
+        {% endif %}
+    </div>
+  </nav>
+
+</header>

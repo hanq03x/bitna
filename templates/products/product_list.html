@@ -1,0 +1,51 @@
+{% extends "base.html" %}
+
+{% block page_name %}
+    Home
+{% endblock page_name %}
+
+{% block content %}
+    
+    <div class="container mx-auto pb-10">
+        <div class="rounded-xl w-4/5 mx-auto bg-gray-800 h-50vh mt-32 mb-24 bg-cover bg-center" style="background-image:url(https://images.unsplash.com/photo-1605100804763-247f67b3557e?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2070&q=80)"></div>
+
+        <div class="container mx-auto pb-10">
+            <div class="text-2xl">
+                <a href="{% url "products:rings" %}">반지 더보기 &rarr;</a>
+            </div>
+            <div class="flex overflow-x-auto -mx-10 mb-10">   
+                {% for ring in ring_list  %}
+                    {% include 'mixins/product_card.html' with product=ring%}
+                {% endfor %}
+            </div>
+
+            <div class="text-2xl">
+                <a class="mb-10" href="{% url "products:earrings" %}">귀걸이 더보기 &rarr;</a>
+            </div>
+            <div class="flex overflow-x-auto -mx-10 mb-10">
+                {% for earring in earring_list  %}
+                    {% include 'mixins/product_card.html' with product=earring%}
+                {% endfor %}
+            </div>
+
+            <div class="text-2xl">
+                <a class="mb-10" href="{% url "products:necklaces" %}">목걸이 더보기 &rarr;</a>
+            </div>
+            <div class="flex overflow-x-auto -mx-10 mb-10">
+                {% for necklace in necklace_list  %}
+                    {% include 'mixins/product_card.html' with product=necklace%}
+                {% endfor %}
+            </div>
+
+            <div class="text-2xl">
+                <a class="mb-10" href="{% url "products:bracelets" %}">팔찌 더보기 &rarr;</a>  
+            </div>
+            <div class="flex overflow-x-auto -mx-10 mb-10">
+                {% for bracelet in bracelet_list  %}
+                    {% include 'mixins/product_card.html' with product=bracelet%}
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+
+{% endblock content %}

@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+
+
+{% block page_name %}
+    공지사항
+{% endblock page_name %}
+
+
+{% block content %}
+<div class="w-3/5 mx-auto my-20 flex flex-col items-center border p-6 border-gray-400">
+    <p class="text-3xl font-bold mb-5">새 글 작성</p>
+    <form method="POST" action="{% url 'notices:post' %}">
+        {% csrf_token %}
+        제목
+        <input type="text" name="title"><br>
+        내용
+        <textarea rows="10" cols="50" name="contents"></textarea><br>
+        이미지
+        <input type="file" name="photo"><br>
+        <input type="submit" value="글쓰기" class="mt-3 text-center">
+    </form>
+</div>
+{% endblock content%}

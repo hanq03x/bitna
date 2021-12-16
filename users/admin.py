@@ -17,11 +17,21 @@ class CustomUserAdmin(UserAdmin):
                     "birthdate",
                     "language",
                     "currency",
-                    "superhost",
+                    "login_method"
                 )
             }
         ),
     )
 
-    # list_display = ("username", "email", "gender", "language", "currency", "superhost")
-    # list_filter = ("language", "currency", "superhost")
+    list_filter = UserAdmin.list_filter
+
+    list_display = (
+        "username",
+        "first_name",
+        "last_name",
+        "email",
+        "language",
+        "currency",
+        "email_verified",
+        "login_method",
+    )

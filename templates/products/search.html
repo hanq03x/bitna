@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+
+{% block page_name %}
+    검색
+{% endblock page_name %}
+
+
+{% block content %}
+
+<div class="w-3/5 mx-auto my-10 flex flex-col items-center border p-6 border-gray-400">
+    <div class="text-2xl font-medium mb-5">검색</div>
+    <form method="get" action="{% url "products:search" %}" class="w-full">
+        <div class="flex justify-around">
+            <div class="flex items-center">
+                <p class="mr-2 text-xl font-medium">종류</p>
+                {{form.type}}
+            </div>
+            <div class="flex items-center">
+                <p class="mr-2 text-xl font-medium">사이즈</p>
+                {{form.size}}
+                <p class="ml-1">(이상)</p>
+            </div> 
+            <div class="flex items-center">
+                <p class="mr-2 text-xl font-medium">무게</p>
+                {{form.weight}}
+                <p class="ml-1">(이하)</p>
+            </div>
+        </div>
+        <div class="mt-3 text-xl font-medium">재료</div>
+        {{form.material}}
+        <div class="mt-3 text-xl font-medium">스톤</div>
+        {{form.stone}}
+        <button class="mx-auto btn-link w-1/4 font-medium mt-3">검색</button>
+    </form>
+</div>
+
+<div class="container mx-auto pb-10 text-center">
+    <div class="text-2xl font-medium">검색 결과</div>
+    <div class="flex flex-wrap mb-10">
+        {% for p in products  %}
+            {% include 'mixins/product_card.html' with product=p %}
+        {% endfor %}
+    </div>
+</div>
+
+{% endblock content %}

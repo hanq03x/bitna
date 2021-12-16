@@ -1,0 +1,137 @@
+{% extends "base.html" %}
+{% load on_favs %}
+
+{% block page_name %}
+    홈
+{% endblock page_name %}
+
+{% block content %}
+    <div class="-mt-5 container max-w-full h-75vh flex mb-20">
+        <div class="h-full w-1/2 bg-center bg-cover" style="background-image:url({{product.first_photo}})"></div>
+        <div class="h-full w-1/2 flex flex-wrap">
+            {% for photo in product.get_next_four_photos %}
+                <div style="background-image:url({{photo.file.url}})" class="w-1/2 h-auto bg-cover bg-center border-gray-700 border"></div>
+            {% endfor %}
+        </div>
+    </div>
+
+    <div class="container mx-auto flex justify-around pb-56">
+        <div class="w-3/5">
+            <div class="flex justify-between">
+                <h4 class="text-3xl font-medium mb-px">{{product.name}}</h4>
+                {% if user.is_authenticated %}
+                    {% on_favs product as on_favs_bool %}
+                    {% if on_favs_bool %}
+                        <a class="btn-link block w-2/6" href="{% url 'lists:fav' product.pk %}?action=remove">관심목록에서 삭제</a>
+                    {% else %}
+                        <a class="btn-link block w-2/6" href="{% url 'lists:fav' product.pk %}?action=add">관심목록에 저장</a>
+                    {% endif %}
+                {% endif %}
+            </div>
+            
+            <div class="flex border-section">
+                <span class="text-gray-700 font-light mr-5">{{product.material}}</span>
+
+                {% if product.stone %}
+                    <span class="mr-5 font-light">
+                        {{product.stone}}
+                    </span>
+                {% endif %}
+
+                {% if product.size %}
+                    <span class="mr-5 font-light">
+                        {% if product.gender %} 
+                            {{product.size}}호
+                        {% else %}
+                            {{product.size}}g
+                        {% endif %}
+                    </span>
+                {% endif %}
+
+                {% if product.gender %}
+                    <span class="mr-5 font-light">
+                        {{product.gender}}용
+                    </span>
+                {% endif %}
+            </div>
+            
+
+            <div class="mt-10 -mx-10">
+                <div class="py-10 px-5">
+                    <span class="font-medium text-2xl text-center w-full block mb-5">제품의 느낌이 어떠신가요?</span>
+                    <span class="font-medium text-2xl text-center w-full block mb-10">당신의 생각을 들려주세요!</span>
+                    {% if user.is_authenticated %}
+                        <div class="w-full mx-auto my-10 flex flex-col items-center border p-6 border-gray-400">
+                            <form action="{% url 'reviews:create' product.pk %}" method="POST" class="w-full mx-auto">
+                                {% csrf_token %}
+                                <div class="flex justify-center mb-5">
+                                    <div class="flex items-center mr-2">
+                                        <p class="mr-1">디자인</p>
+                                        {{form.beauty}}</div>
+                                    <div class="flex items-center mr-2">
+                                        <p class="mr-1">사이즈</p>
+                                        {{form.size}}</div>
+                                    <div class="flex items-center mr-2">
+                                        <p class="mr-1">색감</p>
+                                        {{form.color}}</div>
+                                    <div class="flex items-center mr-2">
+                                        <p class="mr-1">마감</p>
+                                        {{form.finish}}</div>
+                                </div>
+                                <p>리뷰</p>
+                                {{form.review}}
+                                <button class="btn-link mt-5">후기 남기기</button>
+                            </form>
+                        </div>
+                    {% else %}
+                        {% include 'mixins/social_login.html' %}
+                    {% endif %}
+                </div>
+                
+                <h4 class="font-medium text-2xl my-5">리뷰</h4>
+                <div class="flex items-center">
+                    <div>
+                        <i class="fas fa-star text-blue-300"></i>
+                        <span class="font-bold text-xl">{{product.total_rating}}</span>
+                    </div>
+                    <div class="h-4 w-px bg-gray-400 mx-5"></div>
+                    <div>
+                        <span class="font-bold text-xl">{{product.reviews.count}}</span>
+                        <span>review{{product.reviews.count|pluralize}}</span>
+                    </div>
+                </div>
+                <div class="mt-10">
+                    {% for review in product.reviews.all  %}
+                        <hr>
+                        <div class="border-section my-5">
+                            <div class="mb-3 flex justify-between items-center">
+                                <div class="flex"> 
+                                    <div>
+                                        {% include "mixins/user_avatar.html" with user=review.user h_and_w='w-10 h-10' text='text-xl' %}
+                                    </div>
+                                    <div class="flex flex-col ml-5">
+                                        <div class="flex">
+                                            <span class="font-medium mr-1">{{review.user.first_name}}</span>
+                                            {% if user == review.user %}
+                                                <a href="{% url 'reviews:remove' review.pk %}?action=remove">삭제</a>
+                                            {% endif %}
+                                        </div>
+                                        <span class="text-sm text-gray-500">{{review.created|date:'F Y'}}</span>
+                                    </div>
+                                </div>
+                                <div class="flex">
+                                    <div class="flex items-center ml-2">디자인 <i class="ml-1 fas fa-star text-blue-500 text-xs"></i> {{review.beauty}} </div> 
+                                    <div class="flex items-center ml-2">사이즈 <i class="ml-1 fas fa-star text-blue-500 text-xs"></i>{{review.size}} </div> 
+                                    <div class="flex items-center ml-2">색감 <i class="ml-1 fas fa-star text-blue-500 text-xs"></i>{{review.color}} </div> 
+                                    <div class="flex items-center ml-2">마감 <i class="ml-1 fas fa-star text-blue-500 text-xs"></i>{{review.finish}} </div> 
+                                </div>
+                            </div>
+                            <p>{{review.review}}</p>
+                        </div>
+                    {% endfor %}    
+                </div>
+            </div>
+        </div>
+    </div>
+            
+{% endblock %}

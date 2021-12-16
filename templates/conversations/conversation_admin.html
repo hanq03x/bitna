@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+{% block page_title %}
+    Conversation
+{% endblock page_title %}
+{% block search-bar %}
+{% endblock search-bar %}
+{% block content %}
+     
+    <div class="container mx-auto my-10 mt-32 flex justify-between min-h-50vh">
+        <div class="border mx-auto w-1/2 p-10">
+            <span class="text-center mb-10 w-full block text-lg font-medium">1:1 상담</span>
+                {% for conv in conversation %}
+                    {% for user in conv.participants.all%}
+                        {% if forloop.first %}{% else %}
+                        <hr>
+                        <a href="{% url 'conversations:go' user.pk%}">
+                            <div class="flex justify-around my-10 items-center">
+                                <div class="flex flex-col items-center">
+                                    {% include "mixins/user_avatar.html" with user=user %}
+                                    <span class="mt-2 text-gray-500">{{user.first_name}}</span>
+                                </div>
+                                <div>
+                                    {% for msg in conv.messages.all %}
+                                        {% if forloop.last %}
+                                            <div class="mb-1 text-right" >{{ msg.created }}</div>
+                                            <div class="mt-px p-5 w-56 rounded bg-blue-400 text-white">{{msg.message}}</div>
+                                        {% endif %}
+                                    {% endfor %}
+                                </div>
+                            </div>
+                        </a>
+                        {% endif %}
+                    {% endfor %}
+                {% endfor %}
+        </div>
+    </div>
+{% endblock content %}
